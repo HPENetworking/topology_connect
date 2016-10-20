@@ -81,7 +81,8 @@ class ConnectPlatform(BasePlatform):
         See :meth:`BasePlatform.add_biport` for more information.
         """
         # FIXME: Save this port for later validation in post_build.
-        return biport.identifier
+        enode = self.nmlnode_node_map[node.identifier]
+        return enode.notify_add_biport(node, biport)
 
     def add_bilink(self, nodeport_a, nodeport_b, bilink):
         """
@@ -89,12 +90,25 @@ class ConnectPlatform(BasePlatform):
 
         See :meth:`BasePlatform.add_bilink` for more information.
         """
+        # Get enodes
+        enode_a = self.nmlnode_node_map[nodeport_a[0].identifier]
+        enode_b = self.nmlnode_node_map[nodeport_b[0].identifier]
+
+        # Notify enodes of created interfaces
+        enode_a.notify_add_bilink(nodeport_a, bilink)
+        enode_b.notify_add_bilink(nodeport_b, bilink)
+
         # FIXME: Save this link for later validation in post_build.
 
     def post_build(self):
         """
         See :meth:`BasePlatform.post_build` for more information.
         """
+
+        # Notify nodes of the post_build event
+        for enode in self.nmlnode_node_map.values():
+            enode.notify_post_build()
+
         # FIXME: Check that the final topology is the same as the known /
         # hardwired one.
 

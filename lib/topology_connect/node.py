@@ -57,6 +57,34 @@ class ConnectNode(CommonNode):
         Stops the Node.
         """
 
+    def notify_add_biport(self, node, biport):
+        """
+        Get notified that a new biport was added to this engine node.
+        :param node: The specification node that spawn this engine node.
+        :type node: pynml.nml.Node
+        :param biport: The specification bidirectional port added.
+        :type biport: pynml.nml.BidirectionalPort
+        :rtype: str
+        :return: The assigned interface name of the port.
+        """
+        return biport.identifier
+
+    def notify_add_bilink(self, nodeport, bilink):
+        """
+        Get notified that a new bilink was added to a port of this engine node.
+        :param nodeport: A tuple with the specification node and port being
+         linked.
+        :type nodeport: (pynml.nml.Node, pynml.nml.BidirectionalPort)
+        :param bilink: The specification bidirectional link added.
+        :type bilink: pynml.nml.BidirectionalLink
+        """
+
+    def notify_post_build(self):
+        """
+        Get notified that the post build stage of the topology build was
+        reached.
+        """
+
 
 @add_metaclass(ABCMeta)
 class CommonConnectNode(ConnectNode):
