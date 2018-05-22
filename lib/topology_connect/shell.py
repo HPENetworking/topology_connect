@@ -27,7 +27,10 @@ from pwd import getpwuid
 from logging import getLogger
 from os.path import isabs, join, expanduser
 
-from topology.platforms.shell import PExpectShell, PExpectBashShell
+from topology.platforms.shell import (
+    PExpectShell, PExpectBashShell,
+    AsyncPExpectShell, AsyncPExpectBashShell
+)
 
 
 log = getLogger(__name__)
@@ -190,8 +193,36 @@ class TelnetBashShell(TelnetMixin, PExpectBashShell):
     """
 
 
+class AsyncSshShell(SshMixin, AsyncPExpectShell):
+    """
+    Simple class mixing the pexcept based shell with the SSH mixin.
+    """
+
+
+class AsyncTelnetShell(TelnetMixin, AsyncPExpectShell):
+    """
+    Simple class mixing the pexcept based shell with the Telnet mixin.
+    """
+
+
+class AsyncSshBashShell(SshMixin, AsyncPExpectBashShell):
+    """
+    Simple class mixing the Bash specialized pexcept based shell with the SSH
+    mixin.
+    """
+
+
+class AsyncTelnetBashShell(TelnetMixin, AsyncPExpectBashShell):
+    """
+    Simple class mixing the Bash specialized pexcept based shell with the
+    Telnet mixin.
+    """
+
+
 __all__ = [
     'SshMixin', 'TelnetMixin',
     'SshShell', 'TelnetShell',
-    'SshBashShell', 'TelnetBashShell'
+    'SshBashShell', 'TelnetBashShell',
+    'AsyncSshShell', 'AsyncTelnetShell',
+    'AsyncSshBashShell', 'AsyncTelnetBashShell'
 ]
